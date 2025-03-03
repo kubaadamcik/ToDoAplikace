@@ -1,6 +1,10 @@
+using ToDoAplikace;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
@@ -9,8 +13,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAntiforgery();
+
 app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 app.Run();
 
