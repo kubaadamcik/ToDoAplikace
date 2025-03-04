@@ -1,12 +1,25 @@
 ﻿@page "/"
+@using ToDoAplikace.Models
 
 <PageTitle>To-Do</PageTitle>
 
 <h3>Úkoly</h3>
 
-<table>
-
+<table class="task-table">
+    <tr>
+        <td>
+            @ToDo.Name
+        </td>
+        <td>
+            @ToDo.CreatedAt.ToString()
+        </td>
+    </tr>
 </table>
-@code {
 
+@code {
+    public ToDoTask ToDo { get; set; } = new ToDoTask("První task", DateTime.Now);
+
+    protected override void OnInitialized()
+    {
+    }
 }
