@@ -1,0 +1,14 @@
+﻿@page "/account/login"
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<button @onclick="Move">Klikni</button>
+
+@code {
+
+    private void Move()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
