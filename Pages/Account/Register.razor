@@ -1,0 +1,48 @@
+﻿@using ToDoAplikace.Data
+<h3>Register</h3>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mt-5">
+                <EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleSubmit">
+                    <AntiforgeryToken/>
+                    
+                    <div class="mb-3">
+                        <label for="username">Přezdívka</label>
+                        <InputText id="username" @bind-Value="registerModel.UserName"></InputText>
+                        <ValidationMessage For="() => registerModel.UserName"></ValidationMessage>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <InputText id="email" @bind-Value="registerModel.Email"></InputText>
+                        <ValidationMessage For="() => registerModel.Email"></ValidationMessage>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password">Heslo</label>
+                        <InputText id="password" @bind-Value="registerModel.Password"></InputText>
+                        <ValidationMessage For="() => registerModel.Password"></ValidationMessage>
+                    </div>     
+                    
+                    <div class="mb-3">
+                        <label for="confirm-password">Potvrďte heslo</label>
+                        <InputText id="confirm-password" @bind-Value="registerModel.ConfirmPassword"></InputText>
+                        <ValidationMessage For="() => registerModel.ConfirmPassword"></ValidationMessage>
+                    </div>
+                    
+                    <button class="btn btn-primary">Registrovate se</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    RegisterModel registerModel = new RegisterModel();
+
+    private async Task HandleSubmit()
+    {
+        
+    }
+}
