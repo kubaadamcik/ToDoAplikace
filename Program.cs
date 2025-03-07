@@ -9,15 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     options.UseSqlite("Data Source=/Data");
 });
 
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<DatabaseContext>();
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 6;
+    })
+    .AddEntityFrameworkStores<DatabaseContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -35,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
