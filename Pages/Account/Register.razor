@@ -1,4 +1,11 @@
-﻿@using ToDoAplikace.Data
+﻿@page "/register"
+
+@using ToDoAplikace.Data
+
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
 <h3>Register</h3>
 
 <div class="container">
@@ -32,7 +39,7 @@
                         <ValidationMessage For="() => registerModel.ConfirmPassword"></ValidationMessage>
                     </div>
                     
-                    <button class="btn btn-primary">Registrovate se</button>
+                    <button class="btn btn-primary">Registrovat se</button>
                 </EditForm>
             </div>
         </div>
@@ -43,6 +50,14 @@
 
     private async Task HandleSubmit()
     {
-        
+        if (registerModel.Password == registerModel.ConfirmPassword)
+        {
+            bool result = await JSRuntime.InvokeAsync<bool>("auth.register", registerModel.UserName, registerModel.Email, registerModel.Password);
+
+            if (result)
+            {
+                NavigationManager.NavigateTo("/todo", true);
+            }
+        }
     }
 }

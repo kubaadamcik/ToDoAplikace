@@ -1,8 +1,13 @@
 ﻿@page "/todo"
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 
 <h3>Todo</h3>
 
 @code {
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
 }
