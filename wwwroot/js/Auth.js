@@ -1,9 +1,9 @@
 ﻿window.auth = {
-    register: async function (username, email, password) {
-        const response = await fetch("auth/register", {
+    register: async function (userName, email, password, confirmPassword) {
+        const response = await fetch("/api/auth/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
+            body: JSON.stringify({ userName, email, password, confirmPassword }),
             credentials: 'include'
         });
 

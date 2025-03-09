@@ -5,7 +5,7 @@ using ToDoAplikace.Data;
 
 namespace ToDoAplikace.Controllers;
 
-[Route("api/auth")]
+[Route("/api/auth")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -21,13 +21,30 @@ public class AuthController : ControllerBase
     [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, true, false);
-
-        if (result.Succeeded)
+        if (request.Email.Contains("@"))
         {
-            return Ok();
-        }
+            var user = await _userManager.FindByEmailAsync(request.Email);
 
+            if (user is not null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, true, false);
+                
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+        }
+        else
+        {
+            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, true, false);
+            
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+        }
+        
         return BadRequest();
     }
 

@@ -14,6 +14,7 @@
             <div class="card mt-5">
                 <EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleSubmit">
                     <AntiforgeryToken/>
+                    <DataAnnotationsValidator/>
                     
                     <div class="mb-3">
                         <label for="username">Přezdívka</label>
@@ -50,6 +51,11 @@
 
     private async Task HandleSubmit()
     {
+        var request = await JSRuntime.InvokeAsync<bool>("auth.register", registerModel.UserName, registerModel.Email, registerModel.Password, registerModel.ConfirmPassword);
 
+        if (request)
+        {
+            NavigationManager.NavigateTo("/todo", true);
+        }
     }
 }

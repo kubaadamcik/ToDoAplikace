@@ -21,6 +21,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>(options =>
     {
         options.Password.RequiredLength = 6;
+        options.User.RequireUniqueEmail = true;
+        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
     })
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders();
