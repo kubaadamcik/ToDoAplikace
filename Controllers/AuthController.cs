@@ -5,7 +5,7 @@ using ToDoAplikace.Data;
 
 namespace ToDoAplikace.Controllers;
 
-[Route("/auth")]
+[Route("api/auth")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
         _userManager = userManager;
     }
 
-    [Route("/login")]
+    [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, true, false);
@@ -31,7 +31,7 @@ public class AuthController : ControllerBase
         return BadRequest();
     }
 
-    [Route("/register")]
+    [HttpPost("/register")]
     public async Task<IActionResult> Register([FromBody] RegisterModel request)
     {
         var user = new User() { Email = request.Email, UserName = request.UserName };
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         return BadRequest();
     }
 
-    [Route("/logout")]
+    [HttpPost("/logout")]
     public async Task<IActionResult> Logout()
     {
         _signInManager.SignOutAsync();

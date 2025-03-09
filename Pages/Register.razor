@@ -50,14 +50,6 @@
 
     private async Task HandleSubmit()
     {
-        if (registerModel.Password == registerModel.ConfirmPassword)
-        {
-            bool result = await JSRuntime.InvokeAsync<bool>("auth.register", registerModel.UserName, registerModel.Email, registerModel.Password);
 
-            if (result)
-            {
-                NavigationManager.NavigateTo("/todo", true);
-            }
-        }
     }
 }
