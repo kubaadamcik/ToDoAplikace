@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
     [HttpPost("/logout")]
     public async Task<IActionResult> Logout()
     {
-        _signInManager.SignOutAsync();
+        await _signInManager.SignOutAsync();
         return Ok();
     }
 }
