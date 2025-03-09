@@ -11,30 +11,30 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <div class="card mt-5">
-                <EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleSubmit">
+            <div class="card mt-5 p-3 shadow">
+                <EditForm FormName="register" Model="registerModel" OnValidSubmit="HandleSubmit" >
                     <AntiforgeryToken/>
                     <DataAnnotationsValidator/>
                     
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <label for="username">Přezdívka</label>
                         <InputText id="username" @bind-Value="registerModel.UserName"></InputText>
                         <ValidationMessage For="() => registerModel.UserName"></ValidationMessage>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <label for="email">Email</label>
                         <InputText id="email" @bind-Value="registerModel.Email"></InputText>
                         <ValidationMessage For="() => registerModel.Email"></ValidationMessage>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <label for="password">Heslo</label>
                         <InputText id="password" @bind-Value="registerModel.Password"></InputText>
                         <ValidationMessage For="() => registerModel.Password"></ValidationMessage>
                     </div>     
                     
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <label for="confirm-password">Potvrďte heslo</label>
                         <InputText id="confirm-password" @bind-Value="registerModel.ConfirmPassword"></InputText>
                         <ValidationMessage For="() => registerModel.ConfirmPassword"></ValidationMessage>

@@ -1,6 +1,6 @@
 ﻿window.auth = {
     register: async function (userName, email, password, confirmPassword) {
-        const response = await fetch("/api/auth/register", {
+        const response = await fetch("api/auth/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userName, email, password, confirmPassword }),
@@ -11,7 +11,7 @@
     },
     
     login: async function (email, password) {
-        const response = await fetch("auth/login", {
+        const response = await fetch("api/auth/login", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({email, password }),

@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         if (request.Email.Contains("@"))
@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPost("/register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterModel request)
     {
         var user = new User() { Email = request.Email, UserName = request.UserName };
@@ -64,7 +64,7 @@ public class AuthController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPost("/logout")]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
