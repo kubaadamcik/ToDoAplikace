@@ -1,28 +1,43 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using ToDoAplikace.Data;
 
 namespace ToDoAplikace.Services
 {
-    public class ToDoTaskService : IToDoTaskService
+    public class ToDoTaskService
     {
-        public User User { get; set; }
-        public List<ToDoTask> ToDoTasks { get; set; }
-
         private readonly DatabaseContext _context;
 
-        public ToDoTaskService(DatabaseContext _context)
+        public ToDoTaskService(DatabaseContext context)
         {
+            _context = context;
+        }
+
+        public async Task<List<ToDoTask>?> GetTasksByUserIdAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user is not null)
+            {
+                var toDoTasks = user.Tasks;
+
+                return toDoTasks.ToList();
+            }
+
+            return null;
+        }
+
+        public async Task<bool> CreateTaskWithUserIdAsync(int id, ToDoTask task)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user is null) return false;
             
-        }
+            user.Tasks.Add(task);
+            await _context.SaveChangesAsync();
 
-        public async Task NewTask(ToDoTask task)
-        {
-
-        }
-
-        public async Task CompleteTask(int id)
-        {
-
+            return true;
         }
     }
 }

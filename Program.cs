@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToDoAplikace.Data;
+using ToDoAplikace.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ builder.Services.AddAuthentication(options =>
 .AddCookie();
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<ToDoTaskService>();
 
 var app = builder.Build();
 

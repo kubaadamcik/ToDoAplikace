@@ -1,21 +1,45 @@
 ﻿@page "/todo"
+@using Microsoft.AspNetCore.Identity
 @using ToDoAplikace.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+@inject IJSRuntime JSRuntime
+
 @attribute [Authorize]
 
 <h3>Todo</h3>
 
+
+<button @onclick="CreateTask">Vytvořit úlohu</button>
+
 @code {
 
-    private List<ToDoTask> tasks { get; set; }
+    private List<ToDoTask>? tasks { get; set; }
 
+    private int userId { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
-        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = await UserManager.GetUserAsync(SignInManager.Context.User);
 
-        if (user.User.Identity.IsAuthenticated)
+        userId = int.Parse(user.Id);
+    }
+
+    private async Task GetAllTasks()
+    {
+        tasks = await JSRuntime.InvokeAsync<List<ToDoTask>?>("tasks.getTask", userId);
+
+        StateHasChanged();
+    }
+    
+    private async Task CreateTask()
+    {
+        var request = await JSRuntime.InvokeAsync<bool>("todo.createTask", userId, new ToDoTask() { Name = "Task", CreatedAt = DateTime.Now });
+
+        if (request)
         {
-            tasks = user.User.
+            StateHasChanged();
         }
     }
 }
