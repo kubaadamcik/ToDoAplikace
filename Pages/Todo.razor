@@ -1,13 +1,21 @@
 ﻿@page "/todo"
+@using ToDoAplikace.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@attribute [Authorize]
 
 <h3>Todo</h3>
 
 @code {
 
+    private List<ToDoTask> tasks { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        if (user.User.Identity.IsAuthenticated)
+        {
+            tasks = user.User.
+        }
     }
 }
