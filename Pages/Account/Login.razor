@@ -1,0 +1,47 @@
+﻿@page "/login"
+
+@inject IJSRuntime JSruntime
+@inject NavigationManager NavigationManager
+
+@using ToDoAplikace.Data
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mt-5 p-3 shadow">
+                <EditForm FormName="login" Model="loginModel" OnValidSubmit="HandleSubmit">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Přezdívka nebo email</label>
+                        <InputText class="form-control" id="username" @bind-Value="loginModel.UserName"></InputText>
+                        <ValidationMessage For="() => loginModel.UserName"></ValidationMessage>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Heslo</label>
+                        <InputText type="password" id="password" @bind-Value="loginModel.Password" class="form-control"></InputText>
+                        <ValidationMessage For="() => loginModel.Password"></ValidationMessage>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">Přihlásit se</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+
+    private async Task HandleSubmit()
+    {
+        var request = await JSruntime.InvokeAsync<bool>("auth.login", loginModel.UserName, loginModel.Password);
+
+        if (request)
+        {
+            NavigationManager.NavigateTo("/todo", true);
+        }
+    }
+}

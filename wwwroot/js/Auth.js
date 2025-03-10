@@ -17,5 +17,17 @@
             body: JSON.stringify({email, password }),
             credentials: 'include'
         });
+
+        return response.ok
+    },
+
+    logout: async function () {
+        const response = await fetch("api/auth/logout", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+
+        return response.ok
     }
 }

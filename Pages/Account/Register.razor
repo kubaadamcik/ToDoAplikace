@@ -6,8 +6,6 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
-<h3>Register</h3>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
@@ -16,28 +14,28 @@
                     <AntiforgeryToken/>
                     <DataAnnotationsValidator/>
                     
-                    <div class="form-floating mb-3">
-                        <label for="username">Přezdívka</label>
-                        <InputText id="username" @bind-Value="registerModel.UserName"></InputText>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Přezdívka</label>
+                        <InputText class="form-control" id="username" @bind-Value="registerModel.UserName"></InputText>
                         <ValidationMessage For="() => registerModel.UserName"></ValidationMessage>
                     </div>
                     
-                    <div class="form-floating mb-3">
-                        <label for="email">Email</label>
-                        <InputText id="email" @bind-Value="registerModel.Email"></InputText>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <InputText id="email" class="form-control" @bind-Value="registerModel.Email"></InputText>
                         <ValidationMessage For="() => registerModel.Email"></ValidationMessage>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <label for="password">Heslo</label>
-                        <InputText id="password" @bind-Value="registerModel.Password"></InputText>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Heslo</label>
+                        <InputText type="password" id="password" @bind-Value="registerModel.Password" class="form-control"></InputText>
                         <ValidationMessage For="() => registerModel.Password"></ValidationMessage>
                     </div>     
                     
-                    <div class="form-floating mb-3">
-                        <label for="confirm-password">Potvrďte heslo</label>
-                        <InputText id="confirm-password" @bind-Value="registerModel.ConfirmPassword"></InputText>
-                        <ValidationMessage For="() => registerModel.ConfirmPassword"></ValidationMessage>
+                    <div class="mb-3">
+                        <label for="confirm-password" class="form-label">Potvrďte heslo</label>
+                        <InputText type="password" id="confirm-password" @bind-Value="registerModel.ConfirmPassword" class="form-control"></InputText>
+                        <ValidationMessage For="() => registerModel.ConfirmPassword" class="alert-warning"></ValidationMessage>
                     </div>
                     
                     <button class="btn btn-primary">Registrovat se</button>

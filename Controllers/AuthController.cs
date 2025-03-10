@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using ToDoAplikace.Data;
 
 namespace ToDoAplikace.Controllers;
@@ -21,7 +22,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        if (request.Email.Contains("@"))
+        if (Regex.IsMatch(request.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
