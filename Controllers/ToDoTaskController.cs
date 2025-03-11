@@ -15,8 +15,8 @@ namespace ToDoAplikace.Controllers
             _toDoTaskService = toDoTaskService;
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetTasks(int userId)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetTasks(string userId)
         {
             var tasks = await _toDoTaskService.GetTasksByUserIdAsync(userId);
 
@@ -24,7 +24,7 @@ namespace ToDoAplikace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(int userId, ToDoTask task)
+        public async Task<IActionResult> CreateTask(string userId, ToDoTask task)
         {
             var request = await _toDoTaskService.CreateTaskWithUserIdAsync(userId, task);
 

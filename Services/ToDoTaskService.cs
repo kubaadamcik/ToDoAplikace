@@ -11,29 +11,32 @@ namespace ToDoAplikace.Services
 
         public ToDoTaskService(DatabaseContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<ToDoTask>?> GetTasksByUserIdAsync(int id)
+        public async Task<List<ToDoTask>> GetTasksByUserIdAsync(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user is not null)
+            if (string.IsNullOrEmpty(id))
             {
-                var toDoTasks = user.Tasks;
-
-                return toDoTasks.ToList();
+                return new List<ToDoTask>();
             }
 
-            return null;
+            var user = await _context.Users
+                .Include(u => u.Tasks)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user?.Tasks?.ToList() ?? new List<ToDoTask>();
         }
 
-        public async Task<bool> CreateTaskWithUserIdAsync(int id, ToDoTask task)
+        public async Task<bool> CreateTaskWithUserIdAsync(string id, ToDoTask task)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Tasks)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user is null) return false;
-            
+
+            user.Tasks ??= new List<ToDoTask>();
             user.Tasks.Add(task);
             await _context.SaveChangesAsync();
 

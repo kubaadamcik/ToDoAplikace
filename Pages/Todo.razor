@@ -11,28 +11,42 @@
 <h3>Todo</h3>
 
 
-<button @onclick="CreateTask">Vytvořit úlohu</button>
+<button type="button" @onclick="CreateTask">Vytvořit úlohu</button>
 
 @code {
 
     private List<ToDoTask>? tasks { get; set; }
 
-    private int userId { get; set; }
-    
+    private string userId { get; set; }
+
     protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var user = await UserManager.GetUserAsync(SignInManager.Context.User);
 
-        userId = int.Parse(user.Id);
+        if (user is not null)
+        {
+            userId = user.Id;
+            await GetAllTasks();
+        }
     }
 
     private async Task GetAllTasks()
     {
-        tasks = await JSRuntime.InvokeAsync<List<ToDoTask>?>("tasks.getTask", userId);
+        tasks = await JSRuntime.InvokeAsync<List<ToDoTask>?>("tasks.getTasks", userId);
 
         StateHasChanged();
     }
     
+    private void Neco()
+    {
+        Console.WriteLine("Ahoj");
+    }
+
     private async Task CreateTask()
     {
         var request = await JSRuntime.InvokeAsync<bool>("todo.createTask", userId, new ToDoTask() { Name = "Task", CreatedAt = DateTime.Now });

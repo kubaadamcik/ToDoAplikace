@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddSingleton<ToDoTaskService>();
+builder.Services.AddScoped<ToDoTaskService>();
 
 var app = builder.Build();
 
