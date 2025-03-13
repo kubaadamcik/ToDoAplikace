@@ -14,7 +14,7 @@ window.tasks = {
     },
 
     createTask: async function (task) {
-        const response = await fetch(`api/todo`, {
+        const response = await fetch('api/todo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task),

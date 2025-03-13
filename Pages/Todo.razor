@@ -49,7 +49,11 @@
 
     private async Task CreateTask()
     {
-        var request = await JSRuntime.InvokeAsync<bool>("tasks.createTask", new ToDoTask() { Name = "Task", CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId});
+        ToDoTask task = new ToDoTask() { Name = "Task", CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId };
+
+        var taskJson = System.Text.Json.JsonSerializer.Serialize(task);
+
+        var request = await JSRuntime.InvokeAsync<bool>("tasks.createTask", taskJson);
 
         if (request)
         {
