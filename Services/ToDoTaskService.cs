@@ -28,11 +28,11 @@ namespace ToDoAplikace.Services
             return user?.Tasks?.ToList() ?? new List<ToDoTask>();
         }
 
-        public async Task<bool> CreateTaskWithUserIdAsync(string id, ToDoTask task)
+        public async Task<bool> CreateTaskWithUserIdAsync(ToDoTask task)
         {
             var user = await _context.Users
                 .Include(u => u.Tasks)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == task.UserId);
 
             if (user is null) return false;
 

@@ -13,8 +13,8 @@ window.tasks = {
         return data;
     },
 
-    createTask: async function (userId, task) {
-        const response = await fetch(`api/todo?userId=${userId}`, {
+    createTask: async function (task) {
+        const response = await fetch(`api/todo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task),

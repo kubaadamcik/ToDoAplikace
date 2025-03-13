@@ -24,9 +24,9 @@ namespace ToDoAplikace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromQuery] string userId, [FromBody] ToDoTask task)
+        public async Task<IActionResult> CreateTask([FromBody] ToDoTask task)
         {
-            var request = await _toDoTaskService.CreateTaskWithUserIdAsync(userId, task);
+            var request = await _toDoTaskService.CreateTaskWithUserIdAsync(task);
 
             if (request) return Ok();
 

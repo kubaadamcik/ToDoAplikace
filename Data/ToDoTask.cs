@@ -15,5 +15,7 @@ namespace ToDoAplikace.Data
         public DateTime CreatedAt { get; set; }
         public DateTime? Deadline { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
     }
 }
