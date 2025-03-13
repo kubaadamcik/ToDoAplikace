@@ -14,10 +14,10 @@ window.tasks = {
     },
 
     createTask: async function (userId, task) {
-        const response = await fetch("api/todo", {
+        const response = await fetch(`api/todo?userId=${userId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, task }),
+            body: JSON.stringify(task),
             credentials: 'include'
         });
 

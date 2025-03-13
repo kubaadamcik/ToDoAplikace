@@ -1,10 +1,17 @@
-﻿namespace ToDoAplikace.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ToDoAplikace.Data
 {
     public class ToDoTask
     {
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Description { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime? Deadline { get; set; }
 
