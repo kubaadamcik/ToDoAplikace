@@ -1,5 +1,7 @@
 ﻿@page "/todo"
+@using System.Text.Json
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
 @using ToDoAplikace.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<User> UserManager
@@ -28,7 +30,7 @@
     {
         var user = await UserManager.GetUserAsync(SignInManager.Context.User);
 
-        if (user is not null && tasks is null)
+        if (user is not null && firstRender)
         {
             userId = user.Id;
             await GetAllTasks();
@@ -37,7 +39,9 @@
 
     private async Task GetAllTasks()
     {
-        tasks = await JSRuntime.InvokeAsync<List<ToDoTask>?>("tasks.getTasks", userId);
+        var request = await JSRuntime.InvokeAsync<List<ToDoTask>>("tasks.getTasks", userId);
+
+        tasks = request;
 
         StateHasChanged();
     }

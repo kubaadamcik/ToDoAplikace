@@ -25,6 +25,7 @@ namespace ToDoAplikace.Services
                 .Include(u => u.Tasks)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
+
             return user?.Tasks?.ToList() ?? new List<ToDoTask>();
         }
 
