@@ -2,6 +2,7 @@
 @using System.Text.Json
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc
+@using Mono.TextTemplating
 @using ToDoAplikace.Data
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<User> UserManager
@@ -12,6 +13,7 @@
 
 <h3>Todo</h3>
 
+<LoadingSpinner IsLoading="isLoading"/>
 
 <button class="btn btn-primary" type="button" @onclick="CreateTask">Vytvořit úlohu</button>
 
@@ -21,10 +23,10 @@
 
     private string userId { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
+    private bool _isLoading;
 
-    }
+    private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -33,11 +35,11 @@
         if (user is not null && firstRender)
         {
             userId = user.Id;
-            await GetAllTasks();
+            await FetchTasks();
         }
     }
 
-    private async Task GetAllTasks()
+    private async Task FetchTasks()
     {
         var request = await JSRuntime.InvokeAsync<List<ToDoTask>>("tasks.getTasks", userId);
 
@@ -46,10 +48,6 @@
         StateHasChanged();
     }
 
-    private void Neco()
-    {
-        Console.WriteLine("Ahoj");
-    }
 
     private async Task CreateTask()
     {
@@ -57,11 +55,9 @@
 
         var taskJson = System.Text.Json.JsonSerializer.Serialize(task);
 
-        var request = await JSRuntime.InvokeAsync<bool>("tasks.createTask", taskJson);
+        isLoading = true;
+        var request = await JSRuntime.InvokeAsync<bool>("tasks.createTask", task);
 
-        if (request)
-        {
-            StateHasChanged();
-        }
+        isLoading = false;
     }
 }

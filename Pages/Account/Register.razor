@@ -6,6 +6,9 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
+
+<LoadingSpinner IsLoading="isLoading"/>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
@@ -47,13 +50,20 @@
 @code {
     RegisterModel registerModel = new RegisterModel();
 
+    private bool _isLoading;
+
+    private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
+
     private async Task HandleSubmit()
     {
+        isLoading = true;
         var request = await JSRuntime.InvokeAsync<bool>("auth.register", registerModel.UserName, registerModel.Email, registerModel.Password, registerModel.ConfirmPassword);
 
+        isLoading = false;
         if (request)
         {
             NavigationManager.NavigateTo("/todo", true);
         }
+
     }
 }

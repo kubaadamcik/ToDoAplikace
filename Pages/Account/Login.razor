@@ -5,6 +5,8 @@
 
 @using ToDoAplikace.Data
 
+<LoadingSpinner IsLoading="isLoading"/>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
@@ -35,9 +37,18 @@
 @code {
     private LoginModel loginModel = new();
 
+    private bool _isLoading;
+
+    private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
+
+
     private async Task HandleSubmit()
     {
+        isLoading = true;
+
         var request = await JSruntime.InvokeAsync<bool>("auth.login", loginModel.UserName, loginModel.Password);
+
+        isLoading = false;
 
         if (request)
         {
