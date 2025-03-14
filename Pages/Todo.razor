@@ -11,11 +11,37 @@
 
 @attribute [Authorize]
 
+<LoadingSpinner IsLoading="isLoading"/>
+
 <h3>Todo</h3>
 
 <div class="container">
-    <div class="row">
-
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Název</th>
+                        <th scope="col">Popis</th>  
+                        <th scope="col">Datum dokončení</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                @if (tasks is not null)
+                {
+                    @foreach (ToDoTask task in tasks)
+                    {
+                        <tr>
+                            <td>@task.Name</td>
+                            <td>@task.Description</td>
+                            <td>@task.Deadline</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -37,7 +63,10 @@
         if (user is not null && firstRender)
         {
             userId = user.Id;
+
+            isLoading = true;
             await FetchTasks();
+            isLoading = false;
         }
     }
 
@@ -47,7 +76,6 @@
 
         tasks = request;
 
-        StateHasChanged();
     }
 
 
