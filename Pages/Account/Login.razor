@@ -18,16 +18,19 @@
                     <div class="mb-3">
                         <label for="username" class="form-label">Přezdívka nebo email</label>
                         <InputText class="form-control" id="username" @bind-Value="loginModel.UserName"></InputText>
-                        <ValidationMessage For="() => loginModel.UserName"></ValidationMessage>
+                        <ValidationMessage class="aler-warning" For="() => loginModel.UserName"></ValidationMessage>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Heslo</label>
                         <InputText type="password" id="password" @bind-Value="loginModel.Password" class="form-control"></InputText>
-                        <ValidationMessage For="() => loginModel.Password"></ValidationMessage>
+                        <ValidationMessage class="aler-warning" For="() => loginModel.Password"></ValidationMessage>
                     </div>
 
-                    <button class="btn btn-primary" type="submit">Přihlásit se</button>
+                    <div class="d-flex justify-content-between align-items-center gap-3">
+                        <button class="btn btn-primary" type="submit">Přihlásit se</button>
+                        <p class="mb-0">Nemáte ještě účet? <a href="/register">Vytvořit účet</a></p>
+                    </div>
                 </EditForm>
             </div>
         </div>

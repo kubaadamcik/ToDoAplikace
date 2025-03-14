@@ -20,19 +20,19 @@
                     <div class="mb-3">
                         <label for="username" class="form-label">Přezdívka</label>
                         <InputText class="form-control" id="username" @bind-Value="registerModel.UserName"></InputText>
-                        <ValidationMessage For="() => registerModel.UserName"></ValidationMessage>
+                        <ValidationMessage class="aler-warning" For="() => registerModel.UserName"></ValidationMessage>
                     </div>
                     
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <InputText id="email" class="form-control" @bind-Value="registerModel.Email"></InputText>
-                        <ValidationMessage For="() => registerModel.Email"></ValidationMessage>
+                        <ValidationMessage class="aler-warning" For="() => registerModel.Email"></ValidationMessage>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Heslo</label>
                         <InputText type="password" id="password" @bind-Value="registerModel.Password" class="form-control"></InputText>
-                        <ValidationMessage For="() => registerModel.Password"></ValidationMessage>
+                        <ValidationMessage class="aler-warning" For="() => registerModel.Password"></ValidationMessage>
                     </div>     
                     
                     <div class="mb-3">
@@ -40,8 +40,11 @@
                         <InputText type="password" id="confirm-password" @bind-Value="registerModel.ConfirmPassword" class="form-control"></InputText>
                         <ValidationMessage For="() => registerModel.ConfirmPassword" class="alert-warning"></ValidationMessage>
                     </div>
-                    
-                    <button class="btn btn-primary">Registrovat se</button>
+
+                    <div class="d-flex justify-content-between align-items-center gap-3">
+                        <button class="btn btn-primary">Registrovat se</button>
+                        <p class="mb-0">Už máte účet? <a href="/login">Přihlásit se</a></p>
+                    </div>
                 </EditForm>
             </div>
         </div>
