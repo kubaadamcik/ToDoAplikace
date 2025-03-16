@@ -43,5 +43,25 @@ namespace ToDoAplikace.Services
 
             return true;
         }
+
+        public async Task<bool> FinishTask(int id, string userId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Tasks)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var tasks = user.Tasks;
+
+            var task = tasks.FirstOrDefault(u => u.Id == id);
+
+            if (task is null)
+            {
+                return false;
+            }
+            
+            user.Tasks.Remove(task);
+
+            return true;
+        }
     }
 }

@@ -32,5 +32,15 @@ namespace ToDoAplikace.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> FinishTask([FromBody] int id, string userId)
+        {
+            var request = await _toDoTaskService.FinishTask(id, userId);
+
+            if (request) return Ok();
+
+            return BadRequest();
+        }
     }
 }

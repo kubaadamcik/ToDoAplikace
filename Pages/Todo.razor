@@ -16,7 +16,7 @@
 <h3>Todo</h3>
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-start">
         <div class="col-md-6 col-lg-4">
             <table class="table">
                 <thead>
@@ -30,9 +30,17 @@
                 <tbody>
                 @if (tasks is not null)
                 {
+                    <tr>
+                        <td colspan="4">
+                            <InputText @bind-Value="taskName" @onkeydown="HandleCreate" placeholder="Nový úkol" class="w-100"></InputText>
+                        </td>
+                    </tr>
                     @foreach (ToDoTask task in tasks)
                     {
                         <tr>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => FinishTask(task.Id)">Dokončit</button>
+                            </td>
                             <td>@task.Name</td>
                             <td>@task.Description</td>
                             <td>@task.Deadline</td>
@@ -55,7 +63,8 @@
 
     private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
 
-
+    private string taskName { get; set; }
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var user = await UserManager.GetUserAsync(SignInManager.Context.User);
@@ -75,13 +84,22 @@
         var request = await JSRuntime.InvokeAsync<List<ToDoTask>>("tasks.getTasks", userId);
 
         tasks = request;
-
     }
 
 
+    private async Task HandleCreate(KeyboardEventArgs eventArgs)
+    {
+        if (eventArgs.Key == "Enter" && !string.IsNullOrEmpty(taskName))
+        {
+            await CreateTask();
+            taskName = null;
+            await FetchTasks();
+        }
+    }
+    
     private async Task CreateTask()
     {
-        ToDoTask task = new ToDoTask() { Name = "Task", CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId };
+        ToDoTask task = new ToDoTask() { Name = taskName, CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId };
 
         var taskJson = System.Text.Json.JsonSerializer.Serialize(task);
 
@@ -89,5 +107,15 @@
         var request = await JSRuntime.InvokeAsync<bool>("tasks.createTask", task);
 
         isLoading = false;
+    }
+
+    private async Task FinishTask(int id)
+    {
+        var request = await JSRuntime.InvokeAsync<bool>("tasks.finishTask", id, userId);
+
+        if (request)
+        {
+            FetchTasks();
+        }
     }
 }

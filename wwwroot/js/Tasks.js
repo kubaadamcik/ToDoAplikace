@@ -26,5 +26,20 @@ window.tasks = {
         }
 
         return response.ok;
+    },
+
+    finishTask: async function (id, userId) {
+        const response = await fetch('api/todo', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(id, userId),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to finish task: ${response.status}`);
+        }
+        
+        return true;
     }
 };
