@@ -61,6 +61,8 @@ namespace ToDoAplikace.Services
             
             user.Tasks.Remove(task);
 
+            await _context.SaveChangesAsync();
+
             return true;
         }
     }

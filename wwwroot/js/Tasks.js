@@ -32,7 +32,7 @@ window.tasks = {
         const response = await fetch('api/todo', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(id, userId),
+            body: JSON.stringify({ id: id, userId: userId }),
             credentials: 'include'
         });
 

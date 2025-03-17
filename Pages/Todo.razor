@@ -8,6 +8,8 @@
 @inject UserManager<User> UserManager
 @inject SignInManager<User> SignInManager
 @inject IJSRuntime JSRuntime
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 @attribute [Authorize]
 
@@ -64,7 +66,7 @@
     private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
 
     private string taskName { get; set; }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var user = await UserManager.GetUserAsync(SignInManager.Context.User);
@@ -96,7 +98,7 @@
             await FetchTasks();
         }
     }
-    
+
     private async Task CreateTask()
     {
         ToDoTask task = new ToDoTask() { Name = taskName, CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId };
@@ -111,11 +113,12 @@
 
     private async Task FinishTask(int id)
     {
-        var request = await JSRuntime.InvokeAsync<bool>("tasks.finishTask", id, userId);
+        isLoading = true;
+        var uri = $"{NavigationManager.BaseUri}api/todo/{id}?userId={userId}";
+        var response = await HttpClient.DeleteAsync(uri);
+        response.EnsureSuccessStatusCode();
+        isLoading = false;
 
-        if (request)
-        {
-            FetchTasks();
-        }
+        await FetchTasks();
     }
 }
