@@ -23,6 +23,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">Název</th>
                         <th scope="col">Popis</th>  
                         <th scope="col">Datum dokončení</th>
@@ -34,7 +35,7 @@
                 {
                     <tr>
                         <td colspan="4">
-                            <InputText @bind-Value="taskName" @onkeydown="HandleCreate" placeholder="Nový úkol" class="w-100"></InputText>
+                                <InputText @bind-Value="taskName" @onkeypress="HandleCreate" placeholder="Nový úkol" class="w-100"></InputText>
                         </td>
                     </tr>
                     @foreach (ToDoTask task in tasks)
@@ -45,12 +46,21 @@
                             </td>
                             <td>@task.Name</td>
                             <td>@task.Description</td>
-                            <td>@task.Deadline</td>
-                        </tr>
+                            @if (@task.Deadline is not null)
+                                {
+                                    <td>@task.Deadline</td>
+                                }
+                                else
+                                {
+                                    <button>Vybrat datum</button>
+                                }
+                            </tr>
                     }
                 }
                 </tbody>
             </table>
+
+            <InputDate @bind-Value="deadLine"></InputDate>
         </div>
     </div>
 </div>
@@ -66,6 +76,8 @@
     private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
 
     private string taskName { get; set; }
+
+    private DateTime deadLine { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -101,7 +113,7 @@
 
     private async Task CreateTask()
     {
-        ToDoTask task = new ToDoTask() { Name = taskName, CreatedAt = DateTime.Now, Deadline = DateTime.Now, Description = "AHOj", UserId = userId };
+        ToDoTask task = new ToDoTask() { Name = taskName, CreatedAt = DateTime.Now, Description = "AHOj", UserId = userId };
 
         var taskJson = System.Text.Json.JsonSerializer.Serialize(task);
 
