@@ -71,4 +71,18 @@ public class AuthController : ControllerBase
         await _signInManager.SignOutAsync();
         return Ok();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> ChangeUserName([FromBody] ChangeUsernameModel request)
+    {
+        if (request.UserId is null || request.UserId is null) return BadRequest();
+
+        var user = _userManager.Users.FirstOrDefault(u => u.Id == request.UserId);
+
+        if (user is null) return NotFound();
+
+
+
+        return Ok();
+    }
 }
