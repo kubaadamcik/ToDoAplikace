@@ -1,0 +1,36 @@
+﻿@page "/account/manage/username"
+@using System.Security.Claims
+@using ToDoAplikace.Data
+
+@attribute [Authorize]
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient HttpClient
+
+<h3>ChangeUsername</h3>
+
+<div>
+    <InputText placeholder="Zadejte nové jméno"></InputText>
+    <button @onclick="ChangeUsernameAsync"></button>
+</div>
+
+@code {
+
+    private string userId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            userId = authState.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
+    }
+
+    private async Task ChangeUsernameAsync()
+    {
+    }
+}

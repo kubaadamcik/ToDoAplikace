@@ -72,7 +72,7 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPut("username")]
     public async Task<IActionResult> ChangeUserName([FromBody] ChangeUsernameModel request)
     {
         if (request.UserId is null || request.UserId is null) return BadRequest();
@@ -81,8 +81,13 @@ public class AuthController : ControllerBase
 
         if (user is null) return NotFound();
 
+        var result = await _userManager.SetUserNameAsync(user, request.UserName);
 
+        if (result.Succeeded)
+        {
+            return Ok();
+        }
 
-        return Ok();
+        return BadRequest();
     }
 }

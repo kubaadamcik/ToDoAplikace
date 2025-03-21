@@ -6,6 +6,12 @@
 
 <h3>Spravovat účet</h3>
 
+<button @onclick="HandleClick">Změnit uživatelské jméno</button>
+
 @code {
-    
+
+    private void HandleClick()
+    {
+        NavigationManager.NavigateTo("/account/manage/username");
+    }
 }
