@@ -4,7 +4,7 @@ namespace ToDoAplikace.Data
 {
     public class ChangeUsernameModel
     {
-        [Required] public required string UserName { get; set; }
-        [Required] public required string UserId { get; set; }
+        [Required] public string UserName { get; set; }
+        [Required] public string UserId { get; set; }
     }
 }
