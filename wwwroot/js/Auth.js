@@ -29,5 +29,20 @@
         })
 
         return response.ok
+    },
+    
+    changeUsername: async function (loginModel) {
+        const response = await fetch("api/auth/username", {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ loginModel }),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            return false
+        }
+        
+        return true;
     }
 }
