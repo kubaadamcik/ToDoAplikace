@@ -35,7 +35,7 @@
         const response = await fetch("api/auth/username", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ loginModel }),
+            body: loginModel,
             credentials: 'include'
         });
 

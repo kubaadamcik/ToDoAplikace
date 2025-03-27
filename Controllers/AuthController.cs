@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -73,15 +74,17 @@ public class AuthController : ControllerBase
     }
 
     [HttpPut("username")]
-    public async Task<IActionResult> ChangeUserName([FromBody] ChangeUsernameModel request)
+    public async Task<IActionResult> ChangeUserName([FromBody] string request)
     {
-        if (request.UserId is null || request.UserId is null) return BadRequest();
+        ChangeUsernameModel model = JsonSerializer.Deserialize<ChangeUsernameModel>(request);
+            
+        if (model.UserId is null || model.UserId is null) return BadRequest();
 
-        var user = _userManager.Users.FirstOrDefault(u => u.Id == request.UserId);
+        var user = _userManager.Users.FirstOrDefault(u => u.Id == model.UserId);
 
         if (user is null) return NotFound();
 
-        var result = await _userManager.SetUserNameAsync(user, request.UserName);
+        var result = await _userManager.SetUserNameAsync(user, model.UserName);
 
         if (result.Succeeded)
         {

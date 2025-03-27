@@ -38,7 +38,9 @@
 
     private async Task ChangeUsernameAsync()
     {
-        var request = await IJSRuntime.InvokeAsync<bool>("auth.changeUsername", model);
+        var json = JsonSerializer.Serialize(model);
+
+        var request = await IJSRuntime.InvokeAsync<bool>("auth.changeUsername", json);
 
         if (request)
         {
