@@ -1,0 +1,38 @@
+﻿@inject IJSRuntime IJSRuntime
+
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Úspěch</h5>
+                <button type="button" class="btn-close" @onclick="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let modal = new bootstrap.Modal(document.getElementById('modal'), {
+        keyboard: true
+    });
+    
+    function showModal() {
+        modal.show();
+    }
+    
+    function hideModal() {
+        modal.hide();
+    }
+</script>
+
+@code {
+    private void Open()
+    {
+        IJSRuntime.InvokeVoidAsync("showModal");
+    }
+    
+    private void Close()
+    {
+        IJSRuntime.InvokeVoidAsync("hideModal");
+    }
+}
