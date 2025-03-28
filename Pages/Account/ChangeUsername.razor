@@ -11,10 +11,13 @@
 
 <h3>ChangeUsername</h3>
 
+
 <div>
     <InputText placeholder="Zadejte nové jméno" @bind-Value="model.UserName"></InputText>
     <button @onclick="ChangeUsernameAsync"></button>
 </div>
+
+
 
 @code {
 
@@ -44,7 +47,7 @@
 
         if (request)
         {
-            NavigationManager.NavigateTo("/", true);
+            
         }
     }
 }
