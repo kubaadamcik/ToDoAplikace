@@ -11,10 +11,23 @@
 
 <h3>ChangeUsername</h3>
 
+<LoadingSpinner IsLoading="_isLoading"></LoadingSpinner>
+
+<Modal @ref="successDialog">
+    <HeaderTemplate>
+        <h3>Úspěch</h3>
+    </HeaderTemplate>
+    <BodyTemplate>
+        <p>Změna uživatelského jména proběhla úspěšně a vaše uživatelské jméno je nyní @model.UserName</p>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Primary" @onclick="successDialog.HideAsync">Zavřít</Button>
+    </FooterTemplate>
+</Modal>
 
 <div>
     <InputText placeholder="Zadejte nové jméno" @bind-Value="model.UserName"></InputText>
-    <button @onclick="ChangeUsernameAsync"></button>
+    <button @onclick="ChangeUsernameAsync">Změnit</button>
 </div>
 
 
@@ -23,7 +36,10 @@
 
     private string userId { get; set; }
     private ChangeUsernameModel model = new ChangeUsernameModel();
-
+    private Modal successDialog = new Modal();
+    
+    private bool _isLoading;
+    private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,13 +57,17 @@
 
     private async Task ChangeUsernameAsync()
     {
+        isLoading = true;
         var json = JsonSerializer.Serialize(model);
 
         var request = await IJSRuntime.InvokeAsync<bool>("auth.changeUsername", json);
 
         if (request)
         {
-            
+            await successDialog.ShowAsync();
         }
+
+        isLoading = false;
     }
+    
 }
