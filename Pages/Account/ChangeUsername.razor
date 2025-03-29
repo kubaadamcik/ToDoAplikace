@@ -1,24 +1,45 @@
 ﻿@page "/account/manage/username"
 @using System.Security.Claims
+@using System.Text.Json
 @using ToDoAplikace.Data
 
 @attribute [Authorize]
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient HttpClient
+@inject IJSRuntime IJSRuntime
 
 <h3>ChangeUsername</h3>
 
+<LoadingSpinner IsLoading="_isLoading"></LoadingSpinner>
+
+<Modal @ref="successDialog">
+    <HeaderTemplate>
+        <h3>Úspěch</h3>
+    </HeaderTemplate>
+    <BodyTemplate>
+        <p>Změna uživatelského jména proběhla úspěšně a vaše uživatelské jméno je nyní @model.UserName</p>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Primary" @onclick="successDialog.HideAsync">Zavřít</Button>
+    </FooterTemplate>
+</Modal>
+
 <div>
     <InputText placeholder="Zadejte nové jméno" @bind-Value="model.UserName"></InputText>
-    <button @onclick="ChangeUsernameAsync"></button>
+    <button @onclick="ChangeUsernameAsync">Změnit</button>
 </div>
+
+
 
 @code {
 
     private string userId { get; set; }
     private ChangeUsernameModel model = new ChangeUsernameModel();
-
+    private Modal successDialog = new Modal();
+    
+    private bool _isLoading;
+    private bool isLoading { get => _isLoading; set { _isLoading = value; StateHasChanged(); } }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,9 +57,17 @@
 
     private async Task ChangeUsernameAsync()
     {
-        var client = new HttpClient();
-        client.BaseAddress = new Uri(NavigationManager.BaseUri);
+        isLoading = true;
+        var json = JsonSerializer.Serialize(model);
 
-        //TODO
+        var request = await IJSRuntime.InvokeAsync<bool>("auth.changeUsername", json);
+
+        if (request)
+        {
+            await successDialog.ShowAsync();
+        }
+
+        isLoading = false;
     }
+    
 }
