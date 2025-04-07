@@ -11,7 +11,11 @@
     <header>
         <div class="navbar shadow" style="background-color: dodgerblue">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" href="">To Do</a>
+                <div class="navbar-nav d-flex flex-row">
+                    <a class="navbar-brand text-white" href="">To Do</a>
+                    <a class="navbar-brand" href="/todo">Úkoly</a>
+                </div>
+
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         @if (!NavigationManager.Uri.Contains("login") && !NavigationManager.Uri.Contains("register"))
